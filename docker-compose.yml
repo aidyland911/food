@@ -7,7 +7,7 @@ services:
       - ./data:/data
     environment:
       DB_PATH: /data/food.db
-      SECRET_KEY: change-me-to-something-random
-      ADMIN_USERNAME: aidy
-      ADMIN_PASSWORD: aidy123
+      SECRET_KEY: ${SECRET_KEY:-dev-only-secret}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-aidy}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-aidy123}
     restart: unless-stopped

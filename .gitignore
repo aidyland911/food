@@ -6,3 +6,4 @@ food.db
 .env
 deploy/certs/*
 !deploy/certs/.gitkeep
+.claude/

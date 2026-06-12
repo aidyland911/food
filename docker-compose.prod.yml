@@ -9,7 +9,7 @@ services:
       DB_PATH: /data/food.db
       SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-aidy}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-aidy123}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env}
       SECURE_COOKIES: "1"
     restart: unless-stopped
 
