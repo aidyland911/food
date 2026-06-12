@@ -1,0 +1,26 @@
+services:
+  food:
+    build: .
+    expose:
+      - "8000"
+    volumes:
+      - ./data:/data
+    environment:
+      DB_PATH: /data/food.db
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-aidy}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-aidy123}
+      SECURE_COOKIES: "1"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/certs:/etc/nginx/certs:ro
+    depends_on:
+      - food
+    restart: unless-stopped

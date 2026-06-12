@@ -1,0 +1,69 @@
+<div class="card stats">
+  <div class="stat"><span class="num">{{ summary.participants }}</span><span>people ordered</span></div>
+  <div class="stat"><span class="num">{{ summary.total_sandwiches }}</span><span>sandwiches</span></div>
+  <div class="stat"><span class="num">{{ summary.share | money }}</span><span>delivery / person</span></div>
+  <div class="stat"><span class="num">{{ summary.tips_sum | money }}</span><span>tips (EGP)</span></div>
+  <div class="stat"><span class="num">{{ summary.grand_total | money }}</span><span>grand total (EGP)</span></div>
+</div>
+
+<div class="card">
+  <h2>Per person</h2>
+  {% if not summary.people %}
+  <p class="muted">Nobody has ordered yet.</p>
+  {% endif %}
+  {% for p in summary.people %}
+  <details class="person" open>
+    <summary>
+      <strong>{{ p.username }}</strong>
+      <span class="pill {% if p.tip %}yes{% else %}no{% endif %}">
+        tip: {% if p.tip %}yes ({{ p.tip_amount | money }}){% else %}no{% endif %}
+      </span>
+      <span class="pay">{{ p.total | money }} EGP</span>
+    </summary>
+    <table>
+      <tbody>
+        {% for l in p.lines %}
+        <tr>
+          <td class="ar">{{ l['name_ar'] }} ({{ BREADS[l['bread']] }})
+            {% if l | extras %}<span class="extra-tag">{{ l | extras }}</span>{% endif %}</td>
+          <td>×{{ l['qty'] }}</td>
+          <td>{{ (l['price'] * l['qty']) | money }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="muted"><td>food {{ p.food_total | money }} + delivery {{ summary.share | money }}
+          {% if p.tip %} + tip {{ p.tip_amount | money }}{% endif %}</td>
+          <td></td><td><strong>{{ p.total | money }}</strong></td></tr>
+      </tbody>
+    </table>
+  </details>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <h2>Sandwich totals (for calling the restaurant)</h2>
+  {% if not summary.item_counts %}
+  <p class="muted">Nothing ordered yet.</p>
+  {% else %}
+  <table>
+    <thead><tr><th class="ar">Sandwich</th><th class="ar">Bread</th><th class="ar">Extras</th><th>Count</th></tr></thead>
+    <tbody>
+      {% for key, count in summary.item_counts %}
+      <tr>
+        <td class="ar">{{ key[0] }}</td>
+        <td class="ar">{{ BREADS[key[1]] }}</td>
+        <td class="ar">{{ {'salad': key[2], 'tahini': key[3]} | extras or '—' }}</td>
+        <td>{{ count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      {% for bread, count in summary.bread_counts.items() %}
+        {% if count %}
+        <tr class="muted"><td colspan="2">Total</td><td class="ar">{{ BREADS[bread] }}</td><td>{{ count }}</td></tr>
+        {% endif %}
+      {% endfor %}
+      <tr class="grand"><td colspan="3">Total sandwiches</td><td>{{ summary.total_sandwiches }}</td></tr>
+    </tfoot>
+  </table>
+  {% endif %}
+</div>

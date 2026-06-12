@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Hamada Sheraton Orders{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{{ url_for('index') }}">🥙 Hamada Sheraton</a>
+      <nav>
+        {% if user %}
+          <a href="{{ url_for('index') }}">Menu</a>
+          <a href="{{ url_for('history') }}">My orders</a>
+          {% if user['is_admin'] %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+          <span class="who">{{ user['username'] }}</span>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flashes">
+          {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

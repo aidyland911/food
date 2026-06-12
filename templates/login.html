@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Login — Hamada Sheraton{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <h1>Login</h1>
+  <form method="post">
+    <label>Name
+      <input name="username" required autofocus autocomplete="username">
+    </label>
+    <label>Password
+      <input name="password" type="password" required autocomplete="current-password">
+    </label>
+    <button type="submit" class="btn primary">Login</button>
+  </form>
+  <p class="muted">First time? <a href="{{ url_for('register') }}">Create your account</a></p>
+</div>
+{% endblock %}

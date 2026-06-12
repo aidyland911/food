@@ -1,0 +1,13 @@
+services:
+  food:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      DB_PATH: /data/food.db
+      SECRET_KEY: change-me-to-something-random
+      ADMIN_USERNAME: aidy
+      ADMIN_PASSWORD: aidy123
+    restart: unless-stopped

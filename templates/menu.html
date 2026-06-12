@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Menu — Hamada Sheraton{% endblock %}
+{% block content %}
+
+{% if round is none %}
+<div class="card center">
+  <h1>No open order right now</h1>
+  <p class="muted">Wait for Aidy to open a round, then refresh this page.</p>
+  <p><a href="{{ url_for('history') }}">See my previous orders</a></p>
+</div>
+{% else %}
+
+<div class="card notice">
+  Round #{{ round['id'] }} is <strong>open</strong> — delivery fee
+  <strong>{{ round['delivery_fee'] | money }} EGP</strong>
+  {% if participants %} split between {{ participants }} {{ 'person' if participants == 1 else 'people' }}
+  (≈ {{ share | money }} EGP each so far){% endif %}.
+</div>
+
+<div class="cat-nav">
+  {% for cat in categories %}
+    <a href="#cat-{{ cat['id'] }}">{{ cat['name_ar'] }}</a>
+  {% endfor %}
+  <a href="#my-order" class="mine">🧾 My order</a>
+</div>
+
+{% for cat in categories %}
+<section class="card" id="cat-{{ cat['id'] }}">
+  <h2 class="ar">{{ cat['name_ar'] }}</h2>
+  <div class="items">
+    {% for item in items_by_cat.get(cat['id'], []) %}
+    <form class="item-row" method="post" action="{{ url_for('order_add') }}">
+      <input type="hidden" name="item_id" value="{{ item['id'] }}">
+      <span class="item-name ar">{{ item['name_ar'] }}</span>
+      <select name="bread">
+        <option value="shami">شامى — {{ item['price_shami'] | money }}</option>
+        <option value="baladi">بلدى — {{ item['price_baladi'] | money }}</option>
+        <option value="fransawi">فرنساوى — {{ item['price_fransawi'] | money }}</option>
+      </select>
+      <label class="extra ar"><input type="checkbox" name="salad" checked> سلطة</label>
+      <label class="extra ar"><input type="checkbox" name="tahini" checked> طحينة</label>
+      <input type="number" name="qty" value="1" min="1" max="20" class="qty">
+      <button type="submit" class="btn">Add</button>
+    </form>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="card" id="my-order">
+  <h2>🧾 My order</h2>
+  {% if lines %}
+  <table>
+    <thead><tr><th class="ar">Item</th><th class="ar">Bread</th><th>Qty</th><th>Price</th><th></th></tr></thead>
+    <tbody>
+      {% for l in lines %}
+      <tr>
+        <td class="ar">{{ l['name_ar'] }}
+          {% if l | extras %}<span class="extra-tag">{{ l | extras }}</span>{% endif %}</td>
+        <td class="ar">{{ BREADS[l['bread']] }}</td>
+        <td>{{ l['qty'] }}</td>
+        <td>{{ (l['price'] * l['qty']) | money }}</td>
+        <td>
+          <form method="post" action="{{ url_for('order_remove', line_id=l['id']) }}">
+            <button type="submit" class="btn danger small">✕</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3">Food total</td><td colspan="2">{{ food_total | money }} EGP</td></tr>
+      <tr class="muted"><td colspan="3">+ delivery share (so far)</td><td colspan="2">{{ share | money }} EGP</td></tr>
+      {% if order and order['tip'] %}
+      <tr class="muted"><td colspan="3">+ my tip</td><td colspan="2">{{ order['tip_amount'] | money }} EGP</td></tr>
+      {% endif %}
+      <tr class="grand"><td colspan="3">My total (so far)</td>
+        <td colspan="2">{{ (food_total + share + (order['tip_amount'] if order and order['tip'] else 0)) | money }} EGP</td></tr>
+    </tfoot>
+  </table>
+  {% else %}
+  <p class="muted">Nothing yet — pick something from the menu above.</p>
+  {% endif %}
+
+  <h3>Tip the delivery man?</h3>
+  <form method="post" action="{{ url_for('order_tip') }}" class="tip-form">
+    <label class="radio">
+      <input type="radio" name="tip" value="yes" {% if order and order['tip'] %}checked{% endif %}> Yes
+    </label>
+    <label class="radio">
+      <input type="radio" name="tip" value="no" {% if not order or not order['tip'] %}checked{% endif %}> No
+    </label>
+    <input type="number" name="tip_amount" step="0.5" min="0" placeholder="Amount (EGP)"
+           value="{{ order['tip_amount'] if order and order['tip'] else '' }}" class="qty wide">
+    <button type="submit" class="btn primary">Save tip choice</button>
+  </form>
+  <p class="muted small-text">If yes, type how much you personally add — it goes on your own total and Aidy sees it.</p>
+</section>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}My orders — Hamada Sheraton{% endblock %}
+{% block content %}
+<h1>My previous orders</h1>
+{% if not entries %}
+<div class="card center"><p class="muted">No past orders yet.</p></div>
+{% endif %}
+{% for e in entries %}
+<div class="card">
+  <h2>Round #{{ e.round['id'] }} <span class="muted">— {{ e.round['created_at'] }}</span></h2>
+  <table>
+    <thead><tr><th class="ar">Item</th><th class="ar">Bread</th><th>Qty</th><th>Price</th></tr></thead>
+    <tbody>
+      {% for l in e.me.lines %}
+      <tr>
+        <td class="ar">{{ l['name_ar'] }}
+          {% if l | extras %}<span class="extra-tag">{{ l | extras }}</span>{% endif %}</td>
+        <td class="ar">{{ BREADS[l['bread']] }}</td>
+        <td>{{ l['qty'] }}</td>
+        <td>{{ (l['price'] * l['qty']) | money }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3">Food total</td><td>{{ e.me.food_total | money }}</td></tr>
+      <tr class="muted"><td colspan="3">+ delivery share</td><td>{{ e.share | money }}</td></tr>
+      {% if e.me.tip %}
+      <tr class="muted"><td colspan="3">+ my tip</td><td>{{ e.me.tip_amount | money }}</td></tr>
+      {% endif %}
+      <tr class="grand"><td colspan="3">I paid</td><td>{{ e.me.total | money }} EGP</td></tr>
+    </tfoot>
+  </table>
+</div>
+{% endfor %}
+{% endblock %}

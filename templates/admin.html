@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Admin — Hamada Sheraton{% endblock %}
+{% block content %}
+<h1>Admin</h1>
+
+{% if summary %}
+<div class="card notice">
+  Round #{{ summary.round['id'] }} is <strong>open</strong> (since {{ summary.round['created_at'] }}).
+  <div class="inline-forms">
+    <form method="post" action="{{ url_for('admin_update_fee') }}">
+      <label>Delivery fee (EGP)
+        <input type="number" name="delivery_fee" step="0.5" min="0"
+               value="{{ summary.round['delivery_fee'] }}" class="qty wide">
+      </label>
+      <button type="submit" class="btn">Update fee</button>
+    </form>
+    <form method="post" action="{{ url_for('admin_close_round') }}"
+          onsubmit="return confirm('Close the round? Nobody will be able to change their order.')">
+      <button type="submit" class="btn danger">Close round</button>
+    </form>
+  </div>
+</div>
+{% include "_summary.html" %}
+{% else %}
+<div class="card">
+  <h2>Open a new round</h2>
+  <form method="post" action="{{ url_for('admin_open_round') }}">
+    <label>Delivery fee (EGP)
+      <input type="number" name="delivery_fee" step="0.5" min="0" value="22" class="qty wide">
+    </label>
+    <button type="submit" class="btn primary">Open round</button>
+  </form>
+  <p class="muted">You can still change the fee while the round is open.</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>Past rounds</h2>
+  {% if not past %}<p class="muted">None yet.</p>{% endif %}
+  <ul class="round-list">
+    {% for r in past %}
+    <li><a href="{{ url_for('admin_round_detail', round_id=r['id']) }}">
+      Round #{{ r['id'] }}</a> — {{ r['created_at'] }} (fee {{ r['delivery_fee'] | money }} EGP)</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

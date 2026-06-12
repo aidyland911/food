@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Round #{{ summary.round['id'] }} — Hamada Sheraton{% endblock %}
+{% block content %}
+<h1>Round #{{ summary.round['id'] }}
+  <span class="pill {{ 'no' if summary.round['status'] == 'closed' else 'yes' }}">{{ summary.round['status'] }}</span>
+</h1>
+<p class="muted">Opened {{ summary.round['created_at'] }}
+  {% if summary.round['closed_at'] %} — closed {{ summary.round['closed_at'] }}{% endif %}
+  — delivery fee {{ summary.round['delivery_fee'] | money }} EGP</p>
+{% include "_summary.html" %}
+<p><a href="{{ url_for('admin') }}">← Back to admin</a></p>
+{% endblock %}

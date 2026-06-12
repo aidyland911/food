@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+data/
+food.db
+.venv/
+.env
+deploy/certs/*
+!deploy/certs/.gitkeep
