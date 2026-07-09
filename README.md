@@ -1,9 +1,13 @@
 # Hamada Sheraton Order App 🥙
 
 Team food-ordering app for Hamada Sheraton. Members log in, pick sandwiches,
-and choose whether to tip the delivery man. Aidy (admin) opens/closes ordering
-rounds and gets the full summary: everyone's order, sandwich counts for the
-phone call, and who pays what (food + delivery split + personal tip).
+and choose whether to tip the delivery man (any amount, e.g. 1.70 EGP). Aidy
+(admin) opens/closes ordering rounds and gets the full summary: everyone's
+order, sandwich counts for the phone call, and who pays what (food + delivery
+split + personal tip).
+
+Full behavior reference: [SPEC.md](SPEC.md). Lab deployment with HTTPS:
+[DEPLOY.md](DEPLOY.md).
 
 ## Run it
 
@@ -30,8 +34,10 @@ Open http://localhost:8000 — teammates on the same network use
 3. Aidy watches the live summary, then **Close round**.
 4. The math: each person pays
    `their food + delivery_fee ÷ people_who_ordered + their own tip (if yes)`.
-5. Members can review their past orders under **My orders**; Aidy can reopen
-   any past round summary from the admin page.
+5. Members can review their past orders under **My orders** and, while a
+   round is open, hit **Reorder this** on any past round to copy it into the
+   current one (charged at today's prices). Aidy can reopen any past round
+   summary from the admin page.
 
 ## Config (environment variables)
 
@@ -40,6 +46,7 @@ Open http://localhost:8000 — teammates on the same network use
 | `SECRET_KEY` | dev value | Session signing key — set something random |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | `aidy` / `aidy123` | Admin account, created on first run |
 | `DB_PATH` | `/data/food.db` | SQLite location (persisted in `./data/`) |
+| `SECURE_COOKIES` | unset | Set to `1` to mark session cookies HTTPS-only (the prod compose file does this) |
 
 ## Editing the menu
 

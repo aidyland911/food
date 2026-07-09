@@ -182,6 +182,26 @@ def get_or_create_order(round_id, user_id):
     return order
 
 
+def add_order_line(db, order_id, item_id, bread, qty, salad, tahini):
+    """Merge a line into an order, bumping qty when the same item/bread/extras
+    combination already exists."""
+    existing = db.execute(
+        """SELECT id FROM order_items
+           WHERE order_id = ? AND item_id = ? AND bread = ? AND salad = ? AND tahini = ?""",
+        (order_id, item_id, bread, salad, tahini),
+    ).fetchone()
+    if existing:
+        db.execute(
+            "UPDATE order_items SET qty = qty + ? WHERE id = ?", (qty, existing["id"])
+        )
+    else:
+        db.execute(
+            "INSERT INTO order_items (order_id, item_id, bread, qty, salad, tahini)"
+            " VALUES (?, ?, ?, ?, ?, ?)",
+            (order_id, item_id, bread, qty, salad, tahini),
+        )
+
+
 def order_lines(order_id):
     return get_db().execute(
         """SELECT oi.id, oi.bread, oi.qty, oi.salad, oi.tahini, i.name_ar,
@@ -384,21 +404,7 @@ def order_add():
         flash("Invalid item.")
         return redirect(url_for("index"))
     order = get_or_create_order(rnd["id"], current_user()["id"])
-    existing = db.execute(
-        """SELECT * FROM order_items
-           WHERE order_id = ? AND item_id = ? AND bread = ? AND salad = ? AND tahini = ?""",
-        (order["id"], item_id, bread, salad, tahini),
-    ).fetchone()
-    if existing:
-        db.execute(
-            "UPDATE order_items SET qty = qty + ? WHERE id = ?", (qty, existing["id"])
-        )
-    else:
-        db.execute(
-            "INSERT INTO order_items (order_id, item_id, bread, qty, salad, tahini)"
-            " VALUES (?, ?, ?, ?, ?, ?)",
-            (order["id"], item_id, bread, qty, salad, tahini),
-        )
+    add_order_line(db, order["id"], item_id, bread, qty, salad, tahini)
     db.commit()
     note = extras_label({"salad": salad, "tahini": tahini})
     flash(f"Added {item['name_ar']} ({BREADS[bread]}){' — ' + note if note else ''} ×{qty}")
@@ -419,6 +425,40 @@ def order_remove(line_id):
         (line_id, rnd["id"], current_user()["id"]),
     )
     db.commit()
+    return redirect(url_for("index") + "#my-order")
+
+
+@app.route("/order/reorder/<int:round_id>", methods=["POST"])
+@login_required
+def order_reorder(round_id):
+    rnd = open_round()
+    if rnd is None:
+        flash("No open round right now — you can reorder once Aidy opens one.")
+        return redirect(url_for("history"))
+    db = get_db()
+    user = current_user()
+    past_lines = db.execute(
+        """SELECT oi.item_id, oi.bread, oi.qty, oi.salad, oi.tahini
+           FROM order_items oi
+           JOIN orders o ON o.id = oi.order_id
+           WHERE o.round_id = ? AND o.user_id = ? ORDER BY oi.id""",
+        (round_id, user["id"]),
+    ).fetchall()
+    if not past_lines:
+        flash("Nothing to reorder from that round.")
+        return redirect(url_for("history"))
+    order = get_or_create_order(rnd["id"], user["id"])
+    for l in past_lines:
+        add_order_line(
+            db, order["id"], l["item_id"], l["bread"], l["qty"], l["salad"], l["tahini"]
+        )
+    db.commit()
+    count = sum(l["qty"] for l in past_lines)
+    food_total = sum(l["price"] * l["qty"] for l in order_lines(order["id"]))
+    flash(
+        f"Reordered {count} item(s) from round #{round_id} at today's prices — "
+        f"your food total is now {food_total:.2f} EGP."
+    )
     return redirect(url_for("index") + "#my-order")
 
 
@@ -464,7 +504,9 @@ def history():
         mine = next((p for p in summary["people"] if p["user_id"] == user["id"]), None)
         if mine:
             entries.append({"round": rnd, "share": summary["share"], "me": mine})
-    return render_template("history.html", entries=entries)
+    return render_template(
+        "history.html", entries=entries, can_reorder=open_round() is not None
+    )
 
 
 @app.route("/admin")

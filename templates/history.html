@@ -30,6 +30,12 @@
       <tr class="grand"><td colspan="3">I paid</td><td>{{ e.me.total | money }} EGP</td></tr>
     </tfoot>
   </table>
+  {% if can_reorder %}
+  <form method="post" action="{{ url_for('order_reorder', round_id=e.round['id']) }}">
+    <button type="submit" class="btn primary">🔁 Reorder this</button>
+  </form>
+  <p class="muted small-text">Added at today's prices — if the menu changed, your new total may differ.</p>
+  {% endif %}
 </div>
 {% endfor %}
 {% endblock %}

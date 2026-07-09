@@ -90,7 +90,7 @@
     <label class="radio">
       <input type="radio" name="tip" value="no" {% if not order or not order['tip'] %}checked{% endif %}> No
     </label>
-    <input type="number" name="tip_amount" step="0.5" min="0" placeholder="Amount (EGP)"
+    <input type="number" name="tip_amount" step="0.01" min="0" placeholder="Amount (EGP)"
            value="{{ order['tip_amount'] if order and order['tip'] else '' }}" class="qty wide">
     <button type="submit" class="btn primary">Save tip choice</button>
   </form>
