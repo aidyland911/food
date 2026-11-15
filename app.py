@@ -1,5 +1,6 @@
 import json
 import os
+import secrets
 import sqlite3
 from datetime import datetime
 from functools import wraps
@@ -22,6 +23,12 @@ if os.environ.get("SECURE_COOKIES") == "1":
     app.config["SESSION_COOKIE_SECURE"] = True
 
 BREADS = {"shami": "شامى", "baladi": "بلدى", "fransawi": "فرنساوى"}
+
+# Photo, English name and description per menu item, keyed by the Arabic item
+# name used in menu.json. Items without an entry show a placeholder.
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "menu_details.json"),
+          encoding="utf-8") as f:
+    ITEM_DETAILS = json.load(f)["items"]
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -277,12 +284,18 @@ def round_summary(round_row):
 
 @app.context_processor
 def inject_globals():
-    return {"user": current_user(), "BREADS": BREADS}
+    return {"user": current_user(), "BREADS": BREADS, "details": ITEM_DETAILS}
 
 
 @app.template_filter("money")
 def money(value):
     return f"{value:.2f}"
+
+
+@app.template_filter("price")
+def price(value):
+    """Compact price for tight spots: 21 instead of 21.00, 14.5 instead of 14.50."""
+    return f"{value:g}"
 
 
 @app.template_filter("extras")
@@ -344,6 +357,30 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("login"))
+
+
+@app.route("/password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    if request.method == "POST":
+        user = current_user()
+        new = request.form.get("new", "")
+        if not check_password_hash(user["password_hash"], request.form.get("current", "")):
+            flash("Current password is wrong.")
+        elif not new:
+            flash("New password is required.")
+        elif new != request.form.get("confirm", ""):
+            flash("The two new passwords don't match.")
+        else:
+            db = get_db()
+            db.execute(
+                "UPDATE users SET password_hash = ? WHERE id = ?",
+                (generate_password_hash(new), user["id"]),
+            )
+            db.commit()
+            flash("Password changed.")
+            return redirect(url_for("index"))
+    return render_template("password.html")
 
 
 @app.route("/")
@@ -408,7 +445,7 @@ def order_add():
     db.commit()
     note = extras_label({"salad": salad, "tahini": tahini})
     flash(f"Added {item['name_ar']} ({BREADS[bread]}){' — ' + note if note else ''} ×{qty}")
-    return redirect(url_for("index") + "#my-order")
+    return redirect(url_for("index") + f"#item-{item_id}")
 
 
 @app.route("/order/remove/<int:line_id>", methods=["POST"])
@@ -518,7 +555,36 @@ def admin():
     past = db.execute(
         "SELECT * FROM rounds WHERE status = 'closed' ORDER BY id DESC LIMIT 20"
     ).fetchall()
-    return render_template("admin.html", summary=summary, past=past)
+    users = db.execute("SELECT id, username FROM users ORDER BY username").fetchall()
+    return render_template("admin.html", summary=summary, past=past, users=users)
+
+
+# Unambiguous characters only, so a temporary password can be read out loud.
+TEMP_PASSWORD_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789"
+
+
+@app.route("/admin/user/password", methods=["POST"])
+@admin_required
+def admin_reset_password():
+    """Passwords are stored hashed and can't be shown, so a member who forgot
+    theirs gets a new one from the admin and keeps their account and history."""
+    db = get_db()
+    target = db.execute(
+        "SELECT * FROM users WHERE id = ?", (request.form.get("user_id", type=int),)
+    ).fetchone()
+    if target is None:
+        flash("Pick a member first.")
+        return redirect(url_for("admin") + "#members")
+    password = request.form.get("password", "")
+    if not password:
+        password = "".join(secrets.choice(TEMP_PASSWORD_ALPHABET) for _ in range(8))
+    db.execute(
+        "UPDATE users SET password_hash = ? WHERE id = ?",
+        (generate_password_hash(password), target["id"]),
+    )
+    db.commit()
+    flash(f"New password for {target['username']}: {password}")
+    return redirect(url_for("admin") + "#members")
 
 
 @app.route("/admin/round/open", methods=["POST"])

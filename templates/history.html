@@ -3,7 +3,7 @@
 {% block content %}
 <h1>My previous orders</h1>
 {% if not entries %}
-<div class="card center"><p class="muted">No past orders yet.</p></div>
+<div class="card center"><div class="empty-mark">🧾</div><p class="muted">No past orders yet.</p></div>
 {% endif %}
 {% for e in entries %}
 <div class="card">

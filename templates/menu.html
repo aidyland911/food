@@ -1,46 +1,85 @@
 {% extends "base.html" %}
 {% block title %}Menu — Hamada Sheraton{% endblock %}
+{% block main_class %}wide{% endblock %}
+{% block body_class %}{% if round and lines %}has-cartbar{% endif %}{% endblock %}
 {% block content %}
 
 {% if round is none %}
 <div class="card center">
+  <div class="empty-mark">🥙</div>
   <h1>No open order right now</h1>
   <p class="muted">Wait for Aidy to open a round, then refresh this page.</p>
-  <p><a href="{{ url_for('history') }}">See my previous orders</a></p>
+  <p><a class="btn" href="{{ url_for('history') }}">See my previous orders</a></p>
 </div>
 {% else %}
 
-<div class="card notice">
-  Round #{{ round['id'] }} is <strong>open</strong> — delivery fee
-  <strong>{{ round['delivery_fee'] | money }} EGP</strong>
-  {% if participants %} split between {{ participants }} {{ 'person' if participants == 1 else 'people' }}
-  (≈ {{ share | money }} EGP each so far){% endif %}.
+<div class="hero">
+  <div>
+    <h1>Round #{{ round['id'] }} is open</h1>
+    <p>Pick your sandwiches, then set your tip at the bottom.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><b>{{ round['delivery_fee'] | money }}</b><span>delivery (EGP)</span></div>
+    {% if participants %}
+    <div class="hero-stat"><b>{{ participants }}</b><span>{{ 'person' if participants == 1 else 'people' }} so far</span></div>
+    <div class="hero-stat"><b>≈ {{ share | money }}</b><span>delivery each</span></div>
+    {% endif %}
+  </div>
 </div>
 
 <div class="cat-nav">
   {% for cat in categories %}
     <a href="#cat-{{ cat['id'] }}">{{ cat['name_ar'] }}</a>
   {% endfor %}
-  <a href="#my-order" class="mine">🧾 My order</a>
 </div>
 
 {% for cat in categories %}
-<section class="card" id="cat-{{ cat['id'] }}">
-  <h2 class="ar">{{ cat['name_ar'] }}</h2>
-  <div class="items">
-    {% for item in items_by_cat.get(cat['id'], []) %}
-    <form class="item-row" method="post" action="{{ url_for('order_add') }}">
+{% set cat_items = items_by_cat.get(cat['id'], []) %}
+<section class="cat" id="cat-{{ cat['id'] }}">
+  <h2 class="cat-title">{{ cat['name_ar'] }} <small>{{ cat_items | length }}</small></h2>
+  <div class="dishes">
+    {% for item in cat_items %}
+    {% set d = details.get(item['name_ar']) %}
+    <form class="dish" id="item-{{ item['id'] }}" method="post" action="{{ url_for('order_add') }}">
       <input type="hidden" name="item_id" value="{{ item['id'] }}">
-      <span class="item-name ar">{{ item['name_ar'] }}</span>
-      <select name="bread">
-        <option value="shami">شامى — {{ item['price_shami'] | money }}</option>
-        <option value="baladi">بلدى — {{ item['price_baladi'] | money }}</option>
-        <option value="fransawi">فرنساوى — {{ item['price_fransawi'] | money }}</option>
-      </select>
-      <label class="extra ar"><input type="checkbox" name="salad" checked> سلطة</label>
-      <label class="extra ar"><input type="checkbox" name="tahini" checked> طحينة</label>
-      <input type="number" name="qty" value="1" min="1" max="20" class="qty">
-      <button type="submit" class="btn">Add</button>
+      <div class="dish-photo">
+        {% if d %}
+        <img src="{{ url_for('static', filename=d['image']) }}" alt="{{ d['en'] }}"
+             width="375" height="375" loading="lazy">
+        {% else %}
+        <div class="dish-noimg">🥙</div>
+        {% endif %}
+        <span class="dish-badge">
+          <small>from</small>
+          <b>{{ [item['price_shami'], item['price_baladi'], item['price_fransawi']] | min | price }}</b>
+          <small>EGP</small>
+        </span>
+      </div>
+      <div class="dish-body">
+        <h3 class="ar">{{ item['name_ar'] }}</h3>
+        {% if d %}
+        <p class="dish-en">{{ d['en'] }}</p>
+        {% if d['description'] %}<p class="dish-desc">{{ d['description'] }}</p>{% endif %}
+        {% endif %}
+      </div>
+      <div class="dish-controls">
+        <div class="breads">
+          {% for bread, label in BREADS.items() %}
+          <label class="choice">
+            <input type="radio" name="bread" value="{{ bread }}" {% if loop.first %}checked{% endif %}>
+            <span>{{ label }}<small>{{ item['price_' + bread] | price }} EGP</small></span>
+          </label>
+          {% endfor %}
+        </div>
+        <div class="extras">
+          <label class="choice"><input type="checkbox" name="salad" checked><span>سلطة</span></label>
+          <label class="choice"><input type="checkbox" name="tahini" checked><span>طحينة</span></label>
+        </div>
+        <div class="dish-add">
+          <input type="number" name="qty" value="1" min="1" max="20" class="qty" aria-label="Quantity">
+          <button type="submit" class="btn primary">Add to order</button>
+        </div>
+      </div>
     </form>
     {% endfor %}
   </div>
@@ -50,45 +89,46 @@
 <section class="card" id="my-order">
   <h2>🧾 My order</h2>
   {% if lines %}
-  <table>
-    <thead><tr><th class="ar">Item</th><th class="ar">Bread</th><th>Qty</th><th>Price</th><th></th></tr></thead>
-    <tbody>
-      {% for l in lines %}
-      <tr>
-        <td class="ar">{{ l['name_ar'] }}
-          {% if l | extras %}<span class="extra-tag">{{ l | extras }}</span>{% endif %}</td>
-        <td class="ar">{{ BREADS[l['bread']] }}</td>
-        <td>{{ l['qty'] }}</td>
-        <td>{{ (l['price'] * l['qty']) | money }}</td>
-        <td>
-          <form method="post" action="{{ url_for('order_remove', line_id=l['id']) }}">
-            <button type="submit" class="btn danger small">✕</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr><td colspan="3">Food total</td><td colspan="2">{{ food_total | money }} EGP</td></tr>
-      <tr class="muted"><td colspan="3">+ delivery share (so far)</td><td colspan="2">{{ share | money }} EGP</td></tr>
-      {% if order and order['tip'] %}
-      <tr class="muted"><td colspan="3">+ my tip</td><td colspan="2">{{ order['tip_amount'] | money }} EGP</td></tr>
-      {% endif %}
-      <tr class="grand"><td colspan="3">My total (so far)</td>
-        <td colspan="2">{{ (food_total + share + (order['tip_amount'] if order and order['tip'] else 0)) | money }} EGP</td></tr>
-    </tfoot>
-  </table>
+  <ul class="order-lines">
+    {% for l in lines %}
+    {% set d = details.get(l['name_ar']) %}
+    <li class="order-line">
+      <div class="order-thumb">
+        {% if d %}<img src="{{ url_for('static', filename=d['image']) }}" alt="" loading="lazy">{% else %}🥙{% endif %}
+      </div>
+      <div class="what">
+        <b>{{ l['name_ar'] }}</b>
+        {% if l | extras %}<span class="extra-tag">{{ l | extras }}</span>{% endif %}
+        <br><span>{{ BREADS[l['bread']] }}</span>
+      </div>
+      <div class="cost">{{ (l['price'] * l['qty']) | money }}
+        <small>{{ l['qty'] }} × {{ l['price'] | price }}</small></div>
+      <form method="post" action="{{ url_for('order_remove', line_id=l['id']) }}">
+        <button type="submit" class="btn danger small" aria-label="Remove">✕</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="totals">
+    <div><span>Food total</span><span>{{ food_total | money }} EGP</span></div>
+    <div class="muted"><span>+ delivery share (so far)</span><span>{{ share | money }} EGP</span></div>
+    {% if order and order['tip'] %}
+    <div class="muted"><span>+ my tip</span><span>{{ order['tip_amount'] | money }} EGP</span></div>
+    {% endif %}
+    <div class="grand"><span>My total (so far)</span>
+      <span>{{ (food_total + share + (order['tip_amount'] if order and order['tip'] else 0)) | money }} EGP</span></div>
+  </div>
   {% else %}
   <p class="muted">Nothing yet — pick something from the menu above.</p>
   {% endif %}
 
   <h3>Tip the delivery man?</h3>
   <form method="post" action="{{ url_for('order_tip') }}" class="tip-form">
-    <label class="radio">
-      <input type="radio" name="tip" value="yes" {% if order and order['tip'] %}checked{% endif %}> Yes
+    <label class="choice">
+      <input type="radio" name="tip" value="yes" {% if order and order['tip'] %}checked{% endif %}><span>Yes</span>
     </label>
-    <label class="radio">
-      <input type="radio" name="tip" value="no" {% if not order or not order['tip'] %}checked{% endif %}> No
+    <label class="choice">
+      <input type="radio" name="tip" value="no" {% if not order or not order['tip'] %}checked{% endif %}><span>No</span>
     </label>
     <input type="number" name="tip_amount" step="0.01" min="0" placeholder="Amount (EGP)"
            value="{{ order['tip_amount'] if order and order['tip'] else '' }}" class="qty wide">
@@ -96,6 +136,13 @@
   </form>
   <p class="muted small-text">If yes, type how much you personally add — it goes on your own total and Aidy sees it.</p>
 </section>
+
+{% if lines %}
+<a class="cartbar" href="#my-order">
+  <span><span class="count">{{ lines | sum(attribute='qty') }}</span>My order</span>
+  <span>{{ food_total | money }} EGP ›</span>
+</a>
+{% endif %}
 
 {% endif %}
 {% endblock %}

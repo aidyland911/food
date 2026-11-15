@@ -1,0 +1,460 @@
+{
+  "items": {
+    "فول حماده": {
+      "en": "Foul Hamada",
+      "description": "",
+      "image": "items/foul-hamada.jpg"
+    },
+    "فول اسبشيال": {
+      "en": "Special Foul",
+      "description": "Seasoned foul with tomatoes, cucumber, and olives",
+      "image": "items/foul-special.jpg"
+    },
+    "فول اسكندرانى": {
+      "en": "Alexandrian Foul",
+      "description": "Seasoned fava beans, peppers, onions, and olives",
+      "image": "items/foul-alexandrian.jpg"
+    },
+    "فول حار": {
+      "en": "Spicy Foul",
+      "description": "Egyptian fava beans seasoned with hot oil and special spices for a delightful taste and a distinctive spicy flavor.",
+      "image": "items/foul-spicy.jpg"
+    },
+    "فول سمنة": {
+      "en": "Foul with Ghee",
+      "description": "Foul seasoned with ghee",
+      "image": "items/foul-ghee.jpg"
+    },
+    "فول بالصلصة": {
+      "en": "Foul with Sauce",
+      "description": "Seasoned foul with sauce",
+      "image": "items/foul-sauce.jpg"
+    },
+    "فول بالسجق": {
+      "en": "Foul with Sausage",
+      "description": "Foul with sauce and sausage",
+      "image": "items/foul-sausage.jpg"
+    },
+    "فول بيض مسلوق": {
+      "en": "Foul with Boiled Eggs",
+      "description": "Seasoned foul with boiled eggs",
+      "image": "items/foul-boiled-eggs.jpg"
+    },
+    "طعمية حمادة": {
+      "en": "Ta'ameya Hamada",
+      "description": "Ta'ameya + salad and tahini",
+      "image": "items/taameya-hamada.jpg"
+    },
+    "طعمية محشية": {
+      "en": "Stuffed Ta'ameya",
+      "description": "Stuffed ta'ameya, spicy, with tomatoes, cucumbers, and tahini",
+      "image": "items/taameya-stuffed.jpg"
+    },
+    "طعمية اسبشيال": {
+      "en": "Special Ta'ameya",
+      "description": "Ta'ameya with sesame, tomatoes, cucumber, olives, and tahini",
+      "image": "items/taameya-special.jpg"
+    },
+    "طعمية بيض مسلوق": {
+      "en": "Ta'ameya with Boiled Eggs",
+      "description": "Ta'ameya + boiled eggs + salad and tahini",
+      "image": "items/taameya-boiled-eggs.jpg"
+    },
+    "طعمية بيض مقلى": {
+      "en": "Falafel with Fried Egg",
+      "description": "Falafel with fried egg",
+      "image": "items/taameya-fried-egg.jpg"
+    },
+    "عجة بلدى": {
+      "en": "Baladi Omelette",
+      "description": "Omelette patty made with falafel dough and eggs",
+      "image": "items/baladi-omelette.jpg"
+    },
+    "طعمية ع بابا غنوج": {
+      "en": "Ta'ameya with Baba Ghanoush",
+      "description": "Ta'ameya + baba ghanoush + cucumber",
+      "image": "items/taameya-baba-ghanoush.jpg"
+    },
+    "طعمية ع بذنجان مقلى": {
+      "en": "Ta'ameya with Fried Eggplant",
+      "description": "Ta'ameya + fried eggplant + salad and tahini",
+      "image": "items/taameya-fried-eggplant.jpg"
+    },
+    "طعمية دوبل": {
+      "en": "Double Ta'ameya",
+      "description": "Double ta'ameya with salad and tahini",
+      "image": "items/taameya-double.jpg"
+    },
+    "طعمية ع بطاطس": {
+      "en": "Ta'ameya with Potatoes",
+      "description": "Ta'ameya + french fries + salad and tahini",
+      "image": "items/taameya-potatoes.jpg"
+    },
+    "طعمية محشية بالبيض المسلوق": {
+      "en": "Ta'ameya Stuffed with Boiled Egg",
+      "description": "Stuffed ta'ameya + boiled egg + salad & tahini",
+      "image": "items/taameya-stuffed-boiled-egg.jpg"
+    },
+    "طعمية كيري": {
+      "en": "Kiri Ta'ameya",
+      "description": "Ta'ameya stuffed with Kiri cheese + tomatoes + cucumbers + tahini",
+      "image": "items/taameya-kiri.jpg"
+    },
+    "طعمية زبادي": {
+      "en": "Yogurt Ta'ameya",
+      "description": "Ta'ameya filled with yogurt, tomatoes, cucumbers, and tahini",
+      "image": "items/taameya-yogurt.jpg"
+    },
+    "طعمية بسطرمة": {
+      "en": "Basturma Ta'ameya",
+      "description": "Ta'ameya + basturma + salad and tahini",
+      "image": "items/taameya-basturma.jpg"
+    },
+    "بطاطس حمادة": {
+      "en": "Hamada Farm Potatoes",
+      "description": "Crispy fried farm potatoes with salad and tahini",
+      "image": "items/potatoes-hamada.jpg"
+    },
+    "بطاطس كاتشب": {
+      "en": "Farm Ketchup Potatoes",
+      "description": "French fries, crispy on the outside and tender on the inside, served with delicious ketchup sauce for an irresistible taste.",
+      "image": "items/potatoes-ketchup.jpg"
+    },
+    "بطاطس اسبيشيال": {
+      "en": "Special Potatoes",
+      "description": "Special potatoes stuffed with fresh tomatoes, rich tahini, cucumbers, and olives",
+      "image": "items/potatoes-special.jpg"
+    },
+    "بطاطس مايونيز": {
+      "en": "Mayonnaise Fries",
+      "description": "Freshly fried potatoes, generously topped with creamy mayonnaise, served hot",
+      "image": "items/potatoes-mayonnaise.jpg"
+    },
+    "بطاطس كاتشب ومايونيز": {
+      "en": "Fries with Ketchup and Mayonnaise",
+      "description": "Crispy golden fries topped with sweet ketchup sauce and creamy mayonnaise",
+      "image": "items/potatoes-ketchup-mayonnaise.jpg"
+    },
+    "بطاطس شيبسى": {
+      "en": "Potato Chips",
+      "description": "Crispy potato chips with fresh green salad and delicious tahini sauce.",
+      "image": "items/potato-chips.jpg"
+    },
+    "بطاطس بيورية": {
+      "en": "Mashed Potatoes",
+      "description": "Fresh potatoes carefully mashed and seasoned with distinctive herbs and spices",
+      "image": "items/mashed-potatoes.jpg"
+    },
+    "بورية بيض مسلوق": {
+      "en": "Mashed Boiled Eggs",
+      "description": "Mashed potatoes with chopped boiled eggs, served in fresh bread",
+      "image": "items/mashed-boiled-eggs.jpg"
+    },
+    "بورية بيض مقلى": {
+      "en": "Mashed Fried Eggs",
+      "description": "Fresh mashed potatoes with fried eggs, served hot in fresh bread",
+      "image": "items/mashed-fried-eggs.jpg"
+    },
+    "بطاطس بيض مقلى": {
+      "en": "Fried Egg Potatoes",
+      "description": "Crispy potatoes with fresh fried eggs",
+      "image": "items/potatoes-fried-egg.jpg"
+    },
+    "بطاطس بيض مسلوق": {
+      "en": "Potatoes with Boiled Eggs",
+      "description": "Crispy potatoes with fresh boiled eggs, served in soft bread with special spices and fresh vegetables",
+      "image": "items/potatoes-boiled-eggs.jpg"
+    },
+    "بطاطس ع بابا غنوج": {
+      "en": "Baba Ghanoush Potatoes",
+      "description": "Crispy potatoes stuffed with mashed grilled eggplant, tahini, garlic, and lemon",
+      "image": "items/potatoes-baba-ghanoush.jpg"
+    },
+    "بطاطس ع بذنجان مقلى": {
+      "en": "Fried Potatoes and Eggplant",
+      "description": "Crispy fried potatoes and eggplant served with fresh salad and a rich tahini sauce",
+      "image": "items/potatoes-fried-eggplant.jpg"
+    },
+    "بطاطس شيدر": {
+      "en": "Cheddar Fries",
+      "description": "Hot and crispy fries topped with melted cheddar cheese, served in fresh bread",
+      "image": "items/potatoes-cheddar.jpg"
+    },
+    "بطاطس سجق أو سوسيس": {
+      "en": "Sausage Potatoes",
+      "description": "Crispy potatoes with sausage pieces seasoned with the finest spices",
+      "image": "items/potatoes-sausage.jpg"
+    },
+    "بطاطس تومية": {
+      "en": "Potatoes with Garlic Sauce",
+      "description": "Golden crispy potatoes topped with a distinctive garlic sauce",
+      "image": "items/potatoes-garlic-sauce.jpg"
+    },
+    "بطاطس بسطرمة": {
+      "en": "Pastrami Potatoes",
+      "description": "Crispy fried potato slices with pastrami pieces, seasoned with a special spice blend",
+      "image": "items/potatoes-pastrami.jpg"
+    },
+    "شيبسى كاتشب ومايونيز": {
+      "en": "Ketchup Mayonnaise Chips",
+      "description": "Potato chips, ketchup, mayonnaise",
+      "image": "items/chips-ketchup-mayonnaise.jpg"
+    },
+    "بطاطس رومي": {
+      "en": "Roumy Potatoes",
+      "description": "Potatoes with Roumy cheese",
+      "image": "items/potatoes-roumy.jpg"
+    },
+    "بطاطس رومى كاتشب": {
+      "en": "Roumy Potatoes with Ketchup",
+      "description": "Roumy potatoes with ketchup sauce",
+      "image": "items/potatoes-roumy-ketchup.jpg"
+    },
+    "بطاطس موتزريلا": {
+      "en": "Mozzarella Potatoes",
+      "description": "Potatoes with mozzarella",
+      "image": "items/potatoes-mozzarella.jpg"
+    },
+    "بورية شيدر": {
+      "en": "Cheddar Mashed Potatoes",
+      "description": "Mashed potatoes with cheddar cheese",
+      "image": "items/mashed-cheddar.jpg"
+    },
+    "بطاطس رومى مايونيز": {
+      "en": "Roumy Cheese Mayonnaise Potatoes",
+      "description": "Potatoes with Roumy cheese and mayonnaise",
+      "image": "items/potatoes-roumy-mayonnaise.jpg"
+    },
+    "بطاطس رومى كاتشب ومايونيز": {
+      "en": "Roumy Fries, Ketchup, Mayonnaise",
+      "description": "Roumy fries with ketchup and mayonnaise",
+      "image": "items/potatoes-roumy-ketchup-mayonnaise.jpg"
+    },
+    "شيبسى شيدر": {
+      "en": "Cheddar Chips",
+      "description": "Crispy chips with rich and delicious cheddar",
+      "image": "items/chips-cheddar.jpg"
+    },
+    "شيبسي رومى": {
+      "en": "Roumy Chips",
+      "description": "Chips with Roumy cheese",
+      "image": "items/chips-roumy.jpg"
+    },
+    "شيبسى ع بابا غنوج": {
+      "en": "Baba Ghanoush Chips",
+      "description": "Chips with baba ghanoush",
+      "image": "items/chips-baba-ghanoush.jpg"
+    },
+    "بورية رومى": {
+      "en": "Mashed Potatoes with Roumy Cheese",
+      "description": "Mashed potatoes with Roumy cheese",
+      "image": "items/mashed-roumy.jpg"
+    },
+    "بورية سجق": {
+      "en": "Sausage Mashed Potatoes",
+      "description": "Mashed potatoes with sausage",
+      "image": "items/mashed-sausage.jpg"
+    },
+    "بيض مسلوق": {
+      "en": "Boiled Eggs",
+      "description": "Boiled eggs + salad and tahini",
+      "image": "items/eggs-boiled.jpg"
+    },
+    "بيض أومليت": {
+      "en": "Omelette",
+      "description": "Omelette (1 egg)",
+      "image": "items/omelette.jpg"
+    },
+    "بيض أومليت دبل": {
+      "en": "Double Egg Omelette",
+      "description": "Omelette (2 eggs)",
+      "image": "items/omelette-double.jpg"
+    },
+    "أومليت رومى أو شيدر": {
+      "en": "Roumy or Cheddar Omelette",
+      "description": "Omelette eggs with Roumy cheese, or with melted cheddar cheese",
+      "image": "items/omelette-roumy-cheddar.jpg"
+    },
+    "أومليت بسطرمة": {
+      "en": "Basturma Omelette",
+      "description": "Omelette eggs, basturma, and vegetables",
+      "image": "items/omelette-basturma.jpg"
+    },
+    "أومليت بسطرمه دبل": {
+      "en": "Double Pastrami Omelette",
+      "description": "Double omelette eggs + double pastrami + vegetables",
+      "image": "items/omelette-basturma-double.jpg"
+    },
+    "أومليت شكشوكة": {
+      "en": "Shakshuka Omelette",
+      "description": "Omelette with shakshuka",
+      "image": "items/omelette-shakshuka.jpg"
+    },
+    "أومليت اباتشي": {
+      "en": "Apache Omelette",
+      "description": "Omelette eggs + sausage + mushrooms + vegetables",
+      "image": "items/omelette-apache.jpg"
+    },
+    "أومليت بيتزا": {
+      "en": "Omelette Pizza",
+      "description": "Omelette eggs, pastrami, Roumy cheese, and vegetables",
+      "image": "items/omelette-pizza.jpg"
+    },
+    "أومليت سوسيس أو سجق": {
+      "en": "Sausage Omelette",
+      "description": "Omelette eggs + sausage + vegetables",
+      "image": "items/omelette-sausage.jpg"
+    },
+    "اومليت اسبانش": {
+      "en": "Spanish Omelette",
+      "description": "Omelette eggs + Roumy cheese + vegetables",
+      "image": "items/omelette-spanish.jpg"
+    },
+    "جبنة": {
+      "en": "Cheese",
+      "description": "Feta cheese with tomatoes and cucumbers",
+      "image": "items/cheese.jpg"
+    },
+    "مسقعة": {
+      "en": "Moussaka",
+      "description": "Moussaka with sauce",
+      "image": "items/moussaka.jpg"
+    },
+    "بذنجان مقلى": {
+      "en": "Fried Eggplant",
+      "description": "Fried eggplant + salad and tahini",
+      "image": "items/fried-eggplant.jpg"
+    },
+    "بابا غنوج": {
+      "en": "Baba Ghanoush",
+      "description": "Baba ghanoush + cucumber",
+      "image": "items/baba-ghanoush.jpg"
+    },
+    "جبنة بيض مسلوق": {
+      "en": "Cheese and Boiled Eggs",
+      "description": "Cheese with tomatoes and cucumbers + boiled eggs",
+      "image": "items/cheese-boiled-eggs.jpg"
+    },
+    "جبنة رومى مقلية": {
+      "en": "Fried Roumy Cheese",
+      "description": "Fried Roumy cheese + lettuce, cucumber, and tomatoes + ketchup mayonnaise",
+      "image": "items/fried-roumy-cheese.jpg"
+    },
+    "جبنة مقلية بالبيض المقلي": {
+      "en": "Fried Cheese with Fried Eggs",
+      "description": "Fried Roumy cheese + omelette eggs + lettuce, cucumber, and tomatoes + ketchup and mayonnaise",
+      "image": "items/fried-cheese-fried-eggs.jpg"
+    },
+    "فول بسطرمة": {
+      "en": "Foul with Basturma",
+      "description": "",
+      "image": "items/foul-basturma.jpg",
+      "composite": true
+    },
+    "فول بيض مقلى": {
+      "en": "Foul with Fried Eggs",
+      "description": "",
+      "image": "items/foul-fried-eggs.jpg",
+      "composite": true
+    },
+    "سندوتش ديناميت": {
+      "en": "Dynamite Sandwich",
+      "description": "",
+      "image": "items/dynamite.jpg",
+      "composite": true
+    },
+    "فول ميكس": {
+      "en": "Foul Mix",
+      "description": "",
+      "image": "items/foul-mix.jpg",
+      "composite": true
+    },
+    "فول زيتون": {
+      "en": "Foul with Olives",
+      "description": "",
+      "image": "items/foul-olives.jpg",
+      "composite": true
+    },
+    "فول ع بابا": {
+      "en": "Foul with Baba Ghanoush",
+      "description": "",
+      "image": "items/foul-baba-ghanoush.jpg",
+      "composite": true
+    },
+    "فول ع بذنجان مقلي أو مخلل": {
+      "en": "Foul with Fried or Pickled Eggplant",
+      "description": "",
+      "image": "items/foul-eggplant.jpg",
+      "composite": true
+    },
+    "فول دوبل": {
+      "en": "Double Foul",
+      "description": "",
+      "image": "items/foul-double.jpg",
+      "composite": true
+    },
+    "مكس محشية": {
+      "en": "Stuffed Mix",
+      "description": "",
+      "image": "items/mix-stuffed.jpg",
+      "composite": true
+    },
+    "فول سلطة مميزة": {
+      "en": "Foul with Special Salad",
+      "description": "",
+      "image": "items/foul-special-salad.jpg",
+      "composite": true
+    },
+    "فول بالبصل": {
+      "en": "Foul with Onions",
+      "description": "",
+      "image": "items/foul-onions.jpg",
+      "composite": true
+    },
+    "فول بالفلافل": {
+      "en": "Foul with Falafel",
+      "description": "",
+      "image": "items/foul-falafel.jpg",
+      "composite": true
+    },
+    "طعمية محشية ع بذنجان مقلي": {
+      "en": "Stuffed Ta'ameya with Fried Eggplant",
+      "description": "",
+      "image": "items/taameya-stuffed-fried-eggplant.jpg",
+      "composite": true
+    },
+    "أومليت فياجرا": {
+      "en": "Viagra Omelette",
+      "description": "",
+      "image": "items/omelette-viagra.jpg",
+      "composite": true
+    }
+  },
+  "not_in_menu": [
+    {
+      "en": "Butter Foul",
+      "description": "Foul seasoned with butter",
+      "image": "items/foul-butter.jpg"
+    },
+    {
+      "en": "Ta'ameya Balady Salad",
+      "description": "Ta'ameya with balady salad",
+      "image": "items/taameya-balady-salad.jpg"
+    },
+    {
+      "en": "Falafel with Tomato and Tahini",
+      "description": "Ta'ameya with tomatoes and tahini",
+      "image": "items/falafel-tomato-tahini.jpg"
+    },
+    {
+      "en": "Kiri Omelette",
+      "description": "Kiri cheese omelette",
+      "image": "items/omelette-kiri.jpg"
+    },
+    {
+      "en": "Cheese Mix",
+      "description": "Mix of Roumy, Cheddar, Mozzarella, and Kiri cheeses",
+      "image": "items/cheese-mix.jpg"
+    }
+  ]
+}

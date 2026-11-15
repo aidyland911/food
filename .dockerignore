@@ -1,0 +1,10 @@
+.git
+.venv
+.claude
+data
+*.db
+*.zip
+*.zip:Zone.Identifier
+.env
+deploy/certs
+_2026-11-01-food-password-reset

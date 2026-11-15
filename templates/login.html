@@ -2,6 +2,7 @@
 {% block title %}Login — Hamada Sheraton{% endblock %}
 {% block content %}
 <div class="card auth-card">
+  <div class="auth-mark">🥙</div>
   <h1>Login</h1>
   <form method="post">
     <label>Name
@@ -13,5 +14,7 @@
     <button type="submit" class="btn primary">Login</button>
   </form>
   <p class="muted">First time? <a href="{{ url_for('register') }}">Create your account</a></p>
+  <p class="muted">Forgot your password? Ask Aidy to reset it — don't create a
+    new account, or you'll lose your order history.</p>
 </div>
 {% endblock %}

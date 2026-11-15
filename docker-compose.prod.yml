@@ -1,6 +1,6 @@
 services:
   food:
-    image: aidyland911/hamada-food:4.0
+    image: aidyland911/hamada-food:5.1
     build: .
     expose:
       - "8000"
