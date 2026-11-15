@@ -7,3 +7,6 @@ food.db
 deploy/certs/*
 !deploy/certs/.gitkeep
 .claude/
+*.db
+*.zip
+*:Zone.Identifier

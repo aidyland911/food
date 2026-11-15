@@ -2,6 +2,7 @@
 {% block title %}Admin — Hamada Sheraton{% endblock %}
 {% block content %}
 <h1>Admin</h1>
+<p><a class="btn small" href="#members">🔑 Reset a member's password</a></p>
 
 {% if summary %}
 <div class="card notice">
@@ -33,6 +34,27 @@
   <p class="muted">You can still change the fee while the round is open.</p>
 </div>
 {% endif %}
+
+<div class="card" id="members">
+  <h2>Reset a member's password</h2>
+  <p class="muted">Passwords can't be viewed, but you can set a new one — the
+    member keeps their account and order history, and can then pick their own
+    under <em>Password</em> in the top bar.</p>
+  <div class="inline-forms">
+    <form method="post" action="{{ url_for('admin_reset_password') }}">
+      <label>Member
+        <select name="user_id" required>
+          <option value="">Choose…</option>
+          {% for u in users %}<option value="{{ u['id'] }}">{{ u['username'] }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>New password
+        <input name="password" autocomplete="off" placeholder="blank = random">
+      </label>
+      <button type="submit" class="btn">Reset password</button>
+    </form>
+  </div>
+</div>
 
 <div class="card">
   <h2>Past rounds</h2>

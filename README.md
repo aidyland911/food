@@ -24,6 +24,10 @@ Open http://localhost:8000 — teammates on the same network use
   in `docker-compose.yml` **before first run** — the admin is created once,
   on first startup).
 - **Members:** self-register at `/register` with any name + password.
+- **Forgotten password:** Aidy → **Admin** → *Reset a member's password*.
+  Passwords are hashed and can't be viewed, but a reset keeps the account
+  and its order history — no need to register again. Anyone can change
+  their own password under **Password** in the top bar.
 
 ## How a gathering works
 
@@ -54,6 +58,13 @@ Prices/items live in `menu.json`. **New categories and new items** are added
 to the DB automatically on every startup (`docker compose restart` after
 editing). **Price changes** to existing items are not synced — to apply them,
 delete `./data/food.db` and restart (this wipes users and order history).
+
+## Photos and descriptions
+
+`menu_details.json` holds the English name, description and photo
+(`static/items/*.jpg`) for each item, keyed by the Arabic name used in
+`menu.json`. Add an entry there (and a square photo) when you add a menu
+item; items without one show a placeholder.
 
 ## Deploying to the company lab
 
